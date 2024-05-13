@@ -1,5 +1,5 @@
+from django.http import Http404
 from django.shortcuts import render
-
 
 posts = [
     {
@@ -53,7 +53,10 @@ def index(request):
 
 def post_detail(request, id):
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    post = next((p for p in posts if p['id'] == id), None)
+    if not post:
+        raise Http404
+    context = {'post': post}
     return render(request, template, context)
 
 
