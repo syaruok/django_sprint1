@@ -51,9 +51,12 @@ def index(request):
     return render(request, template, context)
 
 
+POST_IDS = {post['id']: post for post in posts}
+
+
 def post_detail(request, id):
     template = 'blog/detail.html'
-    post = next((p for p in posts if p['id'] == id), None)
+    post = POST_IDS.get(id)
     if not post:
         raise Http404
     context = {'post': post}
